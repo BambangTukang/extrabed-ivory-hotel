@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservasi Extra Bed — Ivory Bandung</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+  :root{
+    --navy:#0f1e3d; --navy-2:#1a2a4a; --gold:#c9a961; --gold-soft:#e6d4a3;
+    --cream:#f7f3ec; --paper:#fbfaf6; --ink:#1a1a2e; --muted:#6b7280;
+    --line:#e5e0d5; --danger:#b03a2e; --success:#1e7e4e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:radial-gradient(circle at 10% 0%, rgba(201,169,97,.08), transparent 40%),radial-gradient(circle at 90% 100%, rgba(15,30,61,.06), transparent 40%),var(--paper);color:var(--ink);min-height:100vh;line-height:1.5}
+  .serif{font-family:'Playfair Display',serif}
+
+  header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 0 18px;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
+  header::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 2px,transparent 2px 14px);pointer-events:none}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;position:relative;z-index:1}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo-mark{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-soft));display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:'Playfair Display',serif;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(201,169,97,.35)}
+  .brand-text h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;letter-spacing:.5px;line-height:1.1}
+  .brand-text p{font-size:12px;color:var(--gold-soft);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+  .header-right{display:flex;align-items:center;gap:10px}
+  .clock{background:rgba(255,255,255,.08);border:1px solid rgba(201,169,97,.3);border-radius:10px;padding:8px 14px;font-size:13px;color:var(--gold-soft);display:flex;align-items:center;gap:8px}
+  .btn-ghost{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+  .btn-ghost:hover{background:var(--gold);color:var(--navy)}
+
+  .date-checker{display:flex;justify-content:center;margin:25px 0 5px;gap:12px;align-items:center;flex-wrap:wrap;background:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 4px 15px rgba(15,30,61,.05);border:1px solid var(--line)}
+  .date-checker label{font-weight:600;color:var(--navy);font-size:14px}
+  .date-checker input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink)}
+  .btn-print{background:var(--navy);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+  .btn-print:hover{background:var(--navy-2)}
+
+  .hero{padding:20px 0 10px}
+  .stats-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:18px}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 4px 18px rgba(15,30,61,.04);position:relative;overflow:hidden}
+  .stat-card.primary{background:linear-gradient(135deg,#fff 0%,var(--cream) 100%);border:1px solid var(--gold-soft)}
+  .stat-card .label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .stat-card .date{font-size:12px;color:var(--ink);margin-top:4px;font-weight:500;min-height:16px}
+  .big-number{font-family:'Playfair Display',serif;font-size:54px;font-weight:700;line-height:1;color:var(--navy);margin-top:12px;letter-spacing:-1px}
+  .big-number .unit{font-size:13px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400;margin-left:6px}
+  .stat-card.primary .big-number{color:var(--gold)}
+  .progress-bar{height:6px;background:#eee;border-radius:4px;margin-top:12px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:4px;transition:width .6s ease}
+  .progress-fill.low{background:linear-gradient(90deg,#d97757,#e6a271)}
+  .progress-fill.empty{background:linear-gradient(90deg,#b03a2e,#d97757)}
+  .stat-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11px;color:var(--muted)}
+  .mini-stepper{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:2px 4px;box-shadow:0 2px 4px rgba(0,0,0,0.03)}
+  .mini-stepper button{width:22px;height:22px;border:none;background:var(--cream);color:var(--navy);border-radius:50%;font-size:14px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s;font-weight:700}
+  .mini-stepper button:hover{background:var(--gold);color:#fff}
+  .mini-stepper span{font-size:11px;font-weight:600;color:var(--ink);min-width:18px;text-align:center}
+  .stat-card h3{font-family:'Playfair Display',serif;font-size:36px;color:var(--navy);margin-top:12px;line-height:1}
+  .stat-card .sub{font-size:11px;color:var(--muted);margin-top:6px}
+
+  .main{padding:30px 0 60px;display:grid;grid-template-columns:1fr 1.4fr;gap:24px;align-items:start}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px rgba(15,30,61,.04);overflow:hidden}
+  .card-header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .card-header h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:10px}
+  .card-header h2 i{color:var(--gold);font-size:18px}
+  .card-body{padding:22px}
+
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase}
+  .form-group label .req{color:var(--danger)}
+  .form-control{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);transition:all .2s}
+  .form-control:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(201,169,97,.15)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--paper)}
+  .stepper button{width:40px;height:42px;border:none;background:transparent;color:var(--navy);font-size:18px;cursor:pointer;transition:background .15s}
+  .stepper button:hover{background:var(--cream)}
+  .stepper input{flex:1;border:none;text-align:center;font-size:16px;font-weight:600;color:var(--navy);background:transparent;padding:8px 0;min-width:0}
+  .stepper input:focus{outline:none}
+
+  .btn-primary{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border:none;padding:13px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.3px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 14px rgba(15,30,61,.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,30,61,.35)}
+  .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+  .alert{padding:11px 14px;border-radius:9px;font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .alert-success{background:rgba(30,126,78,.1);color:var(--success);border:1px solid rgba(30,126,78,.2)}
+  .alert-danger{background:rgba(176,58,46,.1);color:var(--danger);border:1px solid rgba(176,58,46,.2)}
+
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{text-align:left;padding:12px 14px;background:var(--cream);color:var(--navy);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-bottom:2px solid var(--line)}
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink)}
+  tbody tr:hover{background:var(--paper)}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px}
+  .badge-active{background:rgba(30,126,78,.12);color:var(--success)}
+  .badge-cancelled{background:rgba(176,58,46,.12);color:var(--danger)}
+  .badge-tonight{background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:var(--navy)}
+  .pill-extrabed{display:inline-flex;align-items:center;gap:4px;background:var(--cream);color:var(--navy);padding:4px 10px;border-radius:6px;font-weight:600;font-size:12px;border:1px solid var(--line);white-space:nowrap}
+  .pill-single{background:#e8f0fe;color:#1967d2;border-color:#d2e3fc}
+  .pill-dipan{background:#fef7e0;color:#b06000;border-color:#feefc3}
+  .pill-babycot{background:#f3e8fd;color:#8430ce;border-color:#f3e8fd}
+
+  .btn-link{background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;font-weight:500;padding:5px 8px;border-radius:6px}
+  .btn-link:hover{background:rgba(176,58,46,.08)}
+  .empty-state{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px}
+  .empty-state i{font-size:36px;color:var(--line);display:block;margin-bottom:10px}
+
+  .filter-tabs{display:flex;gap:6px;background:var(--cream);padding:4px;border-radius:10px}
+  .filter-tabs button{border:none;background:transparent;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+  .filter-tabs button.active{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(15,30,61,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+  .modal-overlay.show{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .25s ease}
+  @keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-header{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .modal-header h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy)}
+  .modal-close{background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1}
+  .modal-body{padding:22px}
+
+  .tonight-list{margin-top:16px}
+  .tonight-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--paper);border:1px solid var(--line);border-radius:9px;margin-bottom:8px;font-size:13px}
+  .tonight-item .info{display:flex;align-items:center;gap:10px}
+  .room-badge{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+  .tonight-item .name{font-weight:600;color:var(--ink)}
+  .tonight-item .meta{font-size:11px;color:var(--muted)}
+
+  .loader{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media(max-width:1000px){.stats-grid{grid-template-columns:1fr 1fr}.main{grid-template-columns:1fr}}
+  @media(max-width:560px){.stats-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.big-number{font-size:48px}.brand-text h1{font-size:20px}.clock{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="brand">
+      <div class="logo-mark">I</div>
+      <div class="brand-text">
+        <h1>Hotel Ivory Bandung</h1>
+        <p>Extra Bed Reservation System</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="clock"><i class="bi bi-clock"></i><span id="clockText">--:--</span></div>
+      <button class="btn-ghost" onclick="openSettings()"><i class="bi bi-gear"></i> Setting Default</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="date-checker">
+    <label for="checkDate"><i class="bi bi-calendar3"></i> Cek Tanggal:</label>
+    <input type="date" id="checkDate" onchange="loadStats()">
+    <button class="btn-print" onclick="printReport()"><i class="bi bi-printer"></i> Print Laporan</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card primary">
+        <div class="label">Extra Bed Single</div>
+        <div class="date" id="todayDate">—</div>
+        <div class="big-number"><span id="remainingSingle">-</span><span class="unit">unit tersedia</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressSingle" style="width:0%"></div></div>
+        <div class="stat-meta">
+          <span>Terpakai: <strong id="usedSingle">0</strong></span>
+          <div class="mini-stepper">
+            <button onclick="quickAdjust('default_single', -1)">−</button>
+            <span>Max: <strong id="totalSingle">0</strong></span>
+            <button onclick="quickAdjust('default_single', 1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card primary">
+        <div class="label">Extra Bed Dipan</div>
+        <div class="date">&nbsp;</div>
+        <div class="big-number"><span id="remainingDipan">-</span><span class="unit">unit tersedia</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressDipan" style="width:0%"></div></div>
+        <div class="stat-meta">
+          <span>Terpakai: <strong id="usedDipan">0</strong></span>
+          <div class="mini-stepper">
+            <button onclick="quickAdjust('default_dipan', -1)">−</button>
+            <span>Max: <strong id="totalDipan">0</strong></span>
+            <button onclick="quickAdjust('default_dipan', 1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card primary">
+        <div class="label">Baby Cot</div>
+        <div class="date">&nbsp;</div>
+        <div class="big-number"><span id="remainingBabycot">-</span><span class="unit">unit tersedia</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressBabycot" style="width:0%"></div></div>
+        <div class="stat-meta">
+          <span>Terpakai: <strong id="usedBabycot">0</strong></span>
+          <div class="mini-stepper">
+            <button onclick="quickAdjust('default_babycot', -1)">−</button>
+            <span>Max: <strong id="totalBabycot">0</strong></span>
+            <button onclick="quickAdjust('default_babycot', 1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Reservasi Aktif</div>
+        <div class="date">Seluruh Periode</div>
+        <h3 id="totalReservations">0</h3>
+        <div class="sub">Reservasi yang masih berlaku</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="container main">
+  <div class="card">
+    <div class="card-header">
+      <h2><i class="bi bi-plus-circle"></i> Reservasi Baru</h2>
+    </div>
+    <div class="card-body">
+      <div id="formAlert"></div>
+      <form id="resForm" onsubmit="return submitReservation(event)">
+        <div class="form-group">
+          <label>Nama Tamu <span class="req">*</span></label>
+          <input type="text" class="form-control" id="guest_name" required placeholder="Contoh: Bpk. Andi Wijaya">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>No. Kamar <span class="req">*</span></label>
+            <input type="text" class="form-control" id="room_number" required placeholder="Contoh: 305">
+          </div>
+          <div class="form-group">
+            <label>Tipe Extra Bed <span class="req">*</span></label>
+            <select class="form-control" id="bed_type" required>
+              <option value="single">Single</option>
+              <option value="dipan">Dipan</option>
+              <option value="babycot">Baby Cot</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jumlah</label>
+          <div class="stepper">
+            <button type="button" onclick="adjustBed(-1)">−</button>
+            <input type="number" id="quantity" value="1" min="1" max="20">
+            <button type="button" onclick="adjustBed(1)">+</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tanggal Check-In <span class="req">*</span></label>
+            <input type="date" class="form-control" id="check_in" required>
+          </div>
+          <div class="form-group">
+            <label>Tanggal Check-Out <span class="req">*</span></label>
+            <input type="date" class="form-control" id="check_out" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <i class="bi bi-check2-circle"></i> Simpan Reservasi
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2><i class="bi bi-list-check"></i> Daftar Reservasi</h2>
+      <div class="filter-tabs">
+        <button class="active" data-filter="active" onclick="setFilter('active',this)">Aktif</button>
+        <button data-filter="tonight" onclick="setFilter('tonight',this)">Tanggal Dipilih</button>
+        <button data-filter="all" onclick="setFilter('all',this)">Semua</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0">
+      <div id="tonightSection" style="padding:0 22px 8px;display:none">
+        <div style="margin-top:14px;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;font-weight:600">Tamu Menginap di Tanggal Dipilih</div>
+        <div class="tonight-list" id="tonightList"></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tamu / Kamar</th>
+              <th>Check-In</th>
+              <th>Check-Out</th>
+              <th>Tipe & Jumlah</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="resTableBody">
+            <tr><td colspan="6"><div class="empty-state"><i class="bi bi-inbox"></i>Memuat data…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="bi bi-gear" style="color:var(--gold)"></i> Setting Default Unit</h3>
+      <button class="modal-close" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="settingsAlert"></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Atur jumlah default kapasitas untuk masing-masing tipe.</p>
+      <div class="form-group">
+        <label>Default Extra Bed Single</label>
+        <div class="stepper">
+          <button type="button" onclick="adjustSetting('default_single', -1)">−</button>
+          <input type="number" id="default_single" value="10" min="0" max="200">
+          <button type="button" onclick="adjustSetting('default_single', 1)">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Default Extra Bed Dipan</label>
+        <div class="stepper">
+          <button type="button" onclick="adjustSetting('default_dipan', -1)">−</button>
+          <input type="number" id="default_dipan" value="5" min="0" max="200">
+          <button type="button" onclick="adjustSetting('default_dipan', 1)">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Default Baby Cot</label>
+        <div class="stepper">
+          <button type="button" onclick="adjustSetting('default_babycot', -1)">−</button>
+          <input type="number" id="default_babycot" value="3" min="0" max="200">
+          <button type="button" onclick="adjustSetting('default_babycot', 1)">+</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveSettings()"><i class="bi bi-save"></i> Simpan Pengaturan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentFilter = 'active';
+  let allReservations = [];
+  let currentStats = null;
+  let currentGuests = [];
+  const typeMap = { single: 'Single', dipan: 'Dipan', babycot: 'Baby Cot' };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    setDefaultDates();
+    document.getElementById('checkDate').value = formatDateInput(new Date());
+    refreshAll();
+    startClock();
+  });
+
+  function setDefaultDates(){
+    const today = new Date();
+    const tomorrow = new Date(); tomorrow.setDate(today.getDate()+1);
+    document.getElementById('check_in').value = formatDateInput(today);
+    document.getElementById('check_out').value = formatDateInput(tomorrow);
+    document.getElementById('check_in').min = formatDateInput(today);
+  }
+
+  function formatDateInput(d){
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function formatDateDisplay(dateStr){
+    if(!dateStr) return '-';
+    const d = new Date(dateStr);
+    if(isNaN(d)) return dateStr;
+    const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function startClock(){
+    const update = () => {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      const ss = String(d.getSeconds()).padStart(2,'0');
+      document.getElementById('clockText').textContent = `${hh}:${mm}:${ss}`;
+    };
+    update(); setInterval(update, 1000);
+  }
+
+  function refreshAll(){
+    loadStats();
+    loadReservations();
+  }
+
+  function loadStats(){
+    const dateVal = document.getElementById('checkDate').value;
+    google.script.run.withSuccessHandler(renderStats).getStatsByDate(dateVal);
+  }
+
+  function loadReservations(){
+    google.script.run.withSuccessHandler(renderReservations).getReservations();
+  }
+
+  function renderStats(data){
+    currentStats = data.stats;
+    currentGuests = data.guestList;
+    
+    document.getElementById('todayDate').textContent = data.date;
+    
+    const types = ['single', 'dipan', 'babycot'];
+    types.forEach(type => {
+      const t = data.stats[type];
+      const cap = type.charAt(0).toUpperCase() + type.slice(1);
+      document.getElementById(`remaining${cap}`).textContent = t.remaining;
+      document.getElementById(`used${cap}`).textContent = t.used;
+      document.getElementById(`total${cap}`).textContent = t.total;
+      
+      const percent = t.total > 0 ? (t.used / t.total) * 100 : 0;
+      const fill = document.getElementById(`progress${cap}`);
+      fill.style.width = percent + '%';
+      fill.classList.remove('low','empty');
+      if(t.remaining <= 0) fill.classList.add('empty');
+      else if(t.remaining <= t.total * 0.2) fill.classList.add('low');
+    });
+
+    const list = document.getElementById('tonightList');
+    const section = document.getElementById('tonightSection');
+    if(data.guestList && data.guestList.length > 0){
+      section.style.display = 'block';
+      list.innerHTML = data.guestList.map(r => `
+        <div class="tonight-item">
+          <div class="info">
+            <div class="room-badge">${escapeHtml(r.room_number)}</div>
+            <div>
+              <div class="name">${escapeHtml(r.guest_name)}</div>
+              <div class="meta">${formatDateDisplay(r.check_in)} → ${formatDateDisplay(r.check_out)}</div>
+            </div>
+          </div>
+          <span class="pill-extrabed pill-${r.bed_type}">${typeMap[r.bed_type]} x ${r.quantity}</span>
+        </div>
+      `).join('');
+    } else {
+      section.style.display = 'none';
+    }
+
+    if(currentFilter === 'tonight') applyFilter();
+  }
+
+  function renderReservations(reservations){
+    allReservations = reservations || [];
+    document.getElementById('totalReservations').textContent = allReservations.filter(r => r.status === 'active').length;
+    applyFilter();
+  }
+
+  function setFilter(filter, btn){
+    currentFilter = filter;
+    document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter();
+  }
+
+  function getFilteredReservations() {
+    let list = [...allReservations];
+    if(currentFilter === 'active'){
+      list = list.filter(r => r.status === 'active');
+    } else if(currentFilter === 'tonight'){
+      const selectedDateStr = document.getElementById('checkDate').value;
+      const today = selectedDateStr ? new Date(selectedDateStr) : new Date();
+      today.setHours(0,0,0,0);
+      list = list.filter(r => {
+        if(r.status !== 'active') return false;
+        const ci = new Date(r.check_in); ci.setHours(0,0,0,0);
+        const co = new Date(r.check_out); co.setHours(0,0,0,0);
+        return ci <= today && co > today;
+      });
+    }
+    return list;
+  }
+
+  function applyFilter(){
+    const tbody = document.getElementById('resTableBody');
+    const list = getFilteredReservations();
+
+    if(list.length === 0){
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="bi bi-inbox"></i>Belum ada data reservasi</div></td></tr>`;
+      return;
+    }
+
+    const selectedDateStr = document.getElementById('checkDate').value;
+    const today = selectedDateStr ? new Date(selectedDateStr) : new Date();
+    today.setHours(0,0,0,0);
+    
+    tbody.innerHTML = list.map(r => {
+      const ci = new Date(r.check_in); ci.setHours(0,0,0,0);
+      const co = new Date(r.check_out); co.setHours(0,0,0,0);
+      const isTonight = r.status === 'active' && ci <= today && co > today;
+      const statusBadge = r.status === 'active'
+        ? (isTonight ? '<span class="badge badge-tonight">Malam Ini</span>' : '<span class="badge badge-active">Aktif</span>')
+        : '<span class="badge badge-cancelled">Dibatalkan</span>';
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:600;color:var(--navy)">${escapeHtml(r.guest_name)}</div>
+            <div style="font-size:11px;color:var(--muted)">Kamar ${escapeHtml(r.room_number)}</div>
+          </td>
+          <td>${formatDateDisplay(r.check_in)}</td>
+          <td>${formatDateDisplay(r.check_out)}</td>
+          <td><span class="pill-extrabed pill-${r.bed_type}">${typeMap[r.bed_type] || r.bed_type} x ${r.quantity}</span></td>
+          <td>${statusBadge}</td>
+          <td>${r.status === 'active' ? `<button class="btn-link" onclick="cancelRes('${r.id}')"><i class="bi bi-x-circle"></i> Batal</button>` : ''}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function submitReservation(e){
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loader"></span> Menyimpan…';
+
+    const data = {
+      guest_name: document.getElementById('guest_name').value,
+      room_number: document.getElementById('room_number').value,
+      check_in: document.getElementById('check_in').value,
+      check_out: document.getElementById('check_out').value,
+      bed_type: document.getElementById('bed_type').value,
+      quantity: document.getElementById('quantity').value
+    };
+
+    google.script.run
+      .withSuccessHandler(res => {
+        btn.disabled = false; btn.innerHTML = original;
+        if(res.success){
+          showAlert('formAlert','success', `<i class="bi bi-check-circle"></i> ${res.message} (ID: ${res.id})`);
+          document.getElementById('resForm').reset();
+          setDefaultDates();
+          document.getElementById('quantity').value = 1;
+          refreshAll();
+          setTimeout(() => document.getElementById('formAlert').innerHTML = '', 5000);
+        } else {
+          showAlert('formAlert','danger', `<i class="bi bi-exclamation-triangle"></i> ${res.message}`);
+        }
+      })
+      .withFailureHandler(err => {
+        btn.disabled = false; btn.innerHTML = original;
+        showAlert('formAlert','danger', `<i class="bi bi-exclamation-triangle"></i> Error: ${err.message}`);
+      })
+      .addReservation(data);
+    return false;
+  }
+
+  function cancelRes(id){
+    if(!confirm('Batalkan reservasi ini?')) return;
+    google.script.run
+      .withSuccessHandler(res => { if(res.success) refreshAll(); else alert(res.message); })
+      .cancelReservation(id);
+  }
+
+  function adjustBed(delta){
+    const input = document.getElementById('quantity');
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(20, val + delta));
+    input.value = val;
+  }
+
+  function adjustSetting(id, delta){
+    const input = document.getElementById(id);
+    let val = parseInt(input.value) || 0;
+    val = Math.max(0, Math.min(200, val + delta));
+    input.value = val;
+  }
+
+  function quickAdjust(key, delta) {
+    const cap = key.replace('default_', '').charAt(0).toUpperCase() + key.replace('default_', '').slice(1);
+    const totalEl = document.getElementById(`total${cap}`);
+    let currentVal = parseInt(totalEl.innerText) || 0;
+    let newVal = Math.max(0, currentVal + delta);
+    totalEl.innerText = newVal;
+    
+    google.script.run
+      .withSuccessHandler(res => {
+        if(res.success) loadStats();
+      })
+      .adjustDefaultSetting(key, delta);
+  }
+
+  function openSettings(){
+    document.getElementById('settingsModal').classList.add('show');
+    document.getElementById('settingsAlert').innerHTML = '';
+    google.script.run.withSuccessHandler(settings => {
+      document.getElementById('default_single').value = settings.default_single || 0;
+      document.getElementById('default_dipan').value = settings.default_dipan || 0;
+      document.getElementById('default_babycot').value = settings.default_babycot || 0;
+    }).getSettings();
+  }
+  function closeSettings(){ document.getElementById('settingsModal').classList.remove('show'); }
+
+  function saveSettings(){
+    const data = {
+      default_single: document.getElementById('default_single').value,
+      default_dipan: document.getElementById('default_dipan').value,
+      default_babycot: document.getElementById('default_babycot').value
+    };
+    google.script.run
+      .withSuccessHandler(() => {
+        showAlert('settingsAlert','success', `<i class="bi bi-check-circle"></i> Pengaturan tersimpan`);
+        refreshAll();
+        setTimeout(() => closeSettings(), 1000);
+      })
+      .withFailureHandler(err => {
+        showAlert('settingsAlert','danger', `<i class="bi bi-exclamation-triangle"></i> ${err.message}`);
+      })
+      .updateSettings(data);
+  }
+
+  function printReport() {
+    const dateVal = document.getElementById('checkDate').value;
+    const dateDisplay = formatDateDisplay(dateVal);
+    
+    let title = "Laporan Reservasi Extra Bed";
+    let printList = getFilteredReservations();
+    
+    if(currentFilter === 'active') title = "Daftar Reservasi Aktif";
+    if(currentFilter === 'all') title = "Semua Daftar Reservasi";
+    if(currentFilter === 'tonight') title = `Daftar Reservasi Tanggal ${dateDisplay}`;
+    
+    let summaryHtml = "";
+    if(currentStats) {
+      summaryHtml = `
+        <h3 style="margin-top:20px;">Ringkasan Tanggal ${dateDisplay}</h3>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+          <thead>
+            <tr style="background:#f7f3ec;">
+              <th style="border:1px solid #ddd; padding:8px; text-align:left;">Tipe</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Total</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Terpakai</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Sisa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="border:1px solid #ddd; padding:8px;">Single</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.single.total}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.single.used}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.single.remaining}</td></tr>
+            <tr><td style="border:1px solid #ddd; padding:8px;">Dipan</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.dipan.total}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.dipan.used}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.dipan.remaining}</td></tr>
+            <tr><td style="border:1px solid #ddd; padding:8px;">Baby Cot</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.babycot.total}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.babycot.used}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${currentStats.babycot.remaining}</td></tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    let guestsHtml = "";
+    if(printList.length > 0) {
+      guestsHtml = printList.map(r => `
+        <tr>
+          <td style="border:1px solid #ddd; padding:8px;">${escapeHtml(r.guest_name)}</td>
+          <td style="border:1px solid #ddd; padding:8px; text-align:center;">${escapeHtml(r.room_number)}</td>
+          <td style="border:1px solid #ddd; padding:8px;">${typeMap[r.bed_type]}</td>
+          <td style="border:1px solid #ddd; padding:8px; text-align:center;">${r.quantity}</td>
+          <td style="border:1px solid #ddd; padding:8px;">${formatDateDisplay(r.check_in)}</td>
+          <td style="border:1px solid #ddd; padding:8px;">${formatDateDisplay(r.check_out)}</td>
+          <td style="border:1px solid #ddd; padding:8px; text-align:center;">${r.status === 'active' ? 'Aktif' : 'Dibatalkan'}</td>
+        </tr>
+      `).join('');
+    } else {
+      guestsHtml = `<tr><td colspan="7" style="border:1px solid #ddd; padding:8px; text-align:center;">Tidak ada data.</td></tr>`;
+    }
+
+    // Buka jendela baru untuk print
+    const printWindow = window.open('', '_blank', 'width=900,height=650');
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>Print Laporan - Hotel Ivory Bandung</title>
+        <style>
+          body { font-family: 'Inter', Arial, sans-serif; padding: 30px; color: #000; }
+          h1 { text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 5px; }
+          h3 { text-align: center; font-weight: normal; margin-bottom: 20px; }
+          table { width: 100%; border-collapse: collapse; font-size: 13px; }
+          th { background: #f7f3ec; }
+          @media print {
+            body { padding: 0; }
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Hotel Ivory Bandung</h1>
+        <h3>${title}</h3>
+        ${summaryHtml}
+        <h3>Daftar Reservasi</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="border:1px solid #ddd; padding:8px; text-align:left;">Nama Tamu</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Kamar</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:left;">Tipe</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Jumlah</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:left;">Check-In</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:left;">Check-Out</th>
+              <th style="border:1px solid #ddd; padding:8px; text-align:center;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${guestsHtml}
+          </tbody>
+        </table>
+        <script>
+          window.onload = function() {
+            window.print();
+            setTimeout(function(){ window.close(); }, 500);
+          };
+        <\/script>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  }
+
+  function showAlert(targetId, type, html){ document.getElementById(targetId).innerHTML = `<div class="alert alert-${type}">${html}</div>`; }
+  function escapeHtml(str){ if(str === null || str === undefined) return ''; return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  document.getElementById('settingsModal').addEventListener('click', e => {
+    if(e.target.id === 'settingsModal') closeSettings();
+  });
+</script>
+
+</body>
+</html>
